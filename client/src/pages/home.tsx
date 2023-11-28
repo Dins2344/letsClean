@@ -1,83 +1,44 @@
+import { useEffect, useState } from "react";
 import Options from "../components/options";
+import { Package, Service } from "../types";
 import SideBar from "../components/sideBar";
 
-const HomePage: React.FC = () => {
+const HomePages = () => {
+  const [services, setServices] = useState<Service[]>();
+  const [packages, setPackages] = useState<Package[]>([]);
+  useEffect(() => {
+    getAllServices();
+  }, []);
 
-    const data = [
-      {
-        _id: {
-          $oid: "6565c975b0db79debece503c",
-        },
-        name: "Deep Cleaning",
-        work: [
-          {
-            name: "Laundry cleaning services",
-            price: "200",
-          },
-          {
-            name: "Upholstery cleaning services",
-            price: "300",
-          },
-        ],
-      },
-      {
-        _id: {
-          $oid: "6565c9c5b0db79debece503d",
-        },
-        name: "Home services",
-        work: [
-          {
-            name: "House cleaning services",
-            price: "200",
-          },
-          {
-            name: "Deep cleaning services",
-            price: "300",
-          },
-          {
-            name: "Window cleaning services",
-            price: "400",
-          },
-          {
-            name: "Carpet cleaning services",
-            price: "500",
-          },
-          {
-            name: "Pressure washing services",
-            price: "600",
-          },
-        ],
-      },
-      {
-        _id: {
-          $oid: "6565ca1fb0db79debece503e",
-        },
-        name: "Car Wash",
-        work: [
-          {
-            name: "Soft Touch Car Washes",
-            price: "200",
-          },
-          {
-            name: "No-Touch Car Wash",
-            price: "300",
-          },
-        ],
-      },
-    ];
+  const getAllServices = async () => {
+    const { data } = await (
+      await fetch("http://localhost:3000/user/get-all-services")
+    ).json();
+    console.log(data);
+    setServices(data);
+  };
   return (
     <>
-      <h3>this is home page</h3>
+      <h3 className="text-3xl">this is home page</h3>
+
       <div className="w-full h-[100vh] flex">
-        <div className="w-3/12 h-full">
-          <SideBar></SideBar>
+        <div className="md:w-3/12 w-4/12 ">
+          <h3>sidebar</h3>
+          <SideBar packages={packages}></SideBar>
         </div>
-        <div className="w-9/12 h-full">
-          <Options data = {data}></Options>
+        <div className=" md:w-9/12 w-8/12">
+          <h3>options</h3>
+          {services && (
+            <Options
+              packages={packages}
+              setPackage={setPackages}
+              data={services}
+            ></Options>
+          )}
         </div>
       </div>
     </>
   );
 };
 
-export default HomePage;
+export default HomePages;

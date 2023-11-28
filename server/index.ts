@@ -1,30 +1,22 @@
+import express, { Application } from 'express'
 
-
-import express from 'express'
-import morgan from 'morgan'
-
-import connect from './mongoos/connect'
-import userRouter from './routes/userRoute'
+import userRouter from './routes/userRoutes'
 import cors from 'cors'
+import morgan from 'morgan'
+import connect from './mongoose/connect'
 
 
+const app:Application = express()
 
-
-const app = express()
-
+app.use(cors())
 app.use(morgan('dev'))
-app.use(
-    cors({
-        origin: "*",
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    })
-    );
-    
-connect()
-app.use('/user/api', userRouter)
 
+app.use('/user',userRouter())
+
+
+connect()
 
 
 app.listen(3000, () => {
-    console.log(`sever is running on ${3000}`)
+    console.log(`listening on ${3000}`)
 })

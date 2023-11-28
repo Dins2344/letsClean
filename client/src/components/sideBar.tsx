@@ -1,11 +1,19 @@
-const SideBar = () => {
-    return (
-        <>
-            <div className="w-full h-full flex flex-col">
-                <h3>Selected Items</h3>
-            </div>
-        </>
-    )
+import { Package } from "../types";
+
+interface Props {
+  packages: Package[];
 }
 
-export default SideBar
+const SideBar: React.FC<Props> = ({ packages }) => {
+  return (
+    <>
+      <div className="w-full flex flex-col">
+        {packages.map((item) => {
+          return <h3>{item.name}</h3>;
+        })}
+      </div>
+    </>
+  );
+};
+
+export default SideBar;

@@ -1,12 +1,11 @@
+import { Outlet } from "react-router-dom"
 
 
-import { Outlet } from 'react-router-dom'
-const App : React.FC = ()=> {
-
+function App() {
 
   return (
     <>
-      <Outlet></Outlet>
+     <Outlet></Outlet>
     </>
   )
 }
