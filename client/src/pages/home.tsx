@@ -5,7 +5,11 @@ import SideBar from "../components/sideBar";
 
 const HomePages = () => {
   const [services, setServices] = useState<Service[]>();
-  const [packages, setPackages] = useState<Package[]>([]);
+  const [packages, setPackages] = useState<Package>({
+    package0: { name: "", price: "" },
+    package1: { name: "", price: "" },
+    package2: { name: "", price: "" },
+  });
   useEffect(() => {
     getAllServices();
   }, []);
@@ -14,7 +18,6 @@ const HomePages = () => {
     const { data } = await (
       await fetch("http://localhost:3000/user/get-all-services")
     ).json();
-    console.log(data);
     setServices(data);
   };
   return (
@@ -24,7 +27,9 @@ const HomePages = () => {
       <div className="w-full h-[100vh] flex">
         <div className="md:w-3/12 w-4/12 ">
           <h3>sidebar</h3>
+
           <SideBar packages={packages}></SideBar>
+          
         </div>
         <div className=" md:w-9/12 w-8/12">
           <h3>options</h3>
